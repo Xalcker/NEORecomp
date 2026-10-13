@@ -5,7 +5,8 @@
 # and.b #n = andi.b #n).
 cd "$(dirname "$0")/../.." || exit 2
 python3 tools/neobios/asm68k.py tests/asm68k/prueba.s build/asmtest.bin --list build/asmtest.lst >/dev/null || exit 1
-cut -c1-6 build/asmtest.lst | build/dis68kbin build/asmtest.bin C00000 > build/asmtest.dis || exit 1
+# tr: en Windows el .exe escribe CRLF al redirigir su salida y prueba.dis está con LF
+cut -c1-6 build/asmtest.lst | build/dis68kbin build/asmtest.bin C00000 | tr -d '\r' > build/asmtest.dis || exit 1
 if cmp -s build/asmtest.dis tests/asm68k/prueba.dis; then
     echo "ok    asm68k: $(wc -l < tests/asm68k/prueba.dis | tr -d ' ') instrucciones ensambladas y desensambladas igual"
 else

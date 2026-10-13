@@ -17,8 +17,10 @@ rm -f build/tests/tarjeta.bin
 ordenes=$(grep -v '^#' tests/neobios/tarjeta.guion)
 # shellcheck disable=SC2086
 "./neocard$x" "$rom" --frames 300 --bios "$bios" --card build/tests/tarjeta.bin $ordenes 2>&1 | tail -n +2 \
-    | sed -e 's/  ([0-9]* ciclos)//' > build/tests/tarjeta.txt
-python3 tools/neobios/tarjeta.py build/tests/tarjeta.bin > build/tests/tarjeta.est
+    | sed -e 's/  ([0-9]* ciclos)//' | tr -d '\r' > build/tests/tarjeta.txt
+# En Windows, python3 escribe CRLF y en la página de códigos local (la ñ de «tamaño») al redirigir su salida:
+# lo esperado está en UTF-8 con LF
+PYTHONIOENCODING=utf-8 python3 tools/neobios/tarjeta.py build/tests/tarjeta.bin | tr -d '\r' > build/tests/tarjeta.est
 if [ -n "$rehacer" ]; then
     cp build/tests/tarjeta.txt tests/neobios/tarjeta.esperado
     cp build/tests/tarjeta.est tests/neobios/tarjeta.estructura
