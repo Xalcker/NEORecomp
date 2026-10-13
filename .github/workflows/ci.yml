@@ -4,7 +4,7 @@
 # cambia entre los repos está en los Makefile (make testroms, make test, make dist).
 # La única diferencia es la BIOS: la del AES es de SNK y no puede estar en el repositorio ni
 # en el CI, así que el contrato y las pruebas usan la BIOS propia (make neobios, que se
-# ensambla con Python).
+# ensambla con Python; en Windows se instalan también python y diffutils, que sus pruebas usan: cmp y diff).
 name: ci
 
 # Las ramas se prueban por su PR; los push solo en main (después del merge) y en
@@ -66,6 +66,7 @@ jobs:
             mingw-w64-ucrt-x86_64-SDL2
             mingw-w64-ucrt-x86_64-pkgconf
             mingw-w64-ucrt-x86_64-python
+            diffutils
 
       - name: Compilar
         run: make -j4
