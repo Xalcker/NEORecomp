@@ -60,7 +60,7 @@ $(WINRES): src/platform/icono.rc src/platform/icono.ico | $(BUILD)
 endif
 
 neo$(EXE): $(call plat,$(NEO_SRC)) $(wildcard src/platform/*.h) $(RT) $(WINRES)
-	$(CC) $(CFLAGS) $(SDL_CFLAGS) -Isrc/runtime -I$(SHARED) -Isrc/platform -o $@ $(call plat,$(NEO_SRC)) $(RT) $(WINRES) $(SDL_LIBS) -lm
+	$(CC) $(CFLAGS) -I$(SHARED) $(SDL_CFLAGS) -Isrc/runtime -Isrc/platform -o $@ $(call plat,$(NEO_SRC)) $(RT) $(WINRES) $(SDL_LIBS) -lm
 
 PROGS := neorecomp neotrace neoshot neoaudio neobench neoramdump neorun neocard neo \
          carttest m68ktest z80test bustest lspctest audiotest statetest inputtest
